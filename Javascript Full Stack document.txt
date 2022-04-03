@@ -1,0 +1,29 @@
+
+
+Chapter 3 : Server Basics 
+CLASS : 1
+Q: Why do we need a server?
+	1. What is a server ?
+	2. Why do we want to use one?
+		a. Communication (let users access our app)
+		b. Trusted environment for our code.
+	3. What about serverless applications?
+	4. If an app can be serverless do we really need a server?
+Note : You need to learn about .(Big picture)
+	1. javascript language itself
+	2. Javascript in the web browser environment.
+	3. Javascript n a server environment (Node.js)
+
+CLASS : 2  NODE JS
+	1. What is node js?
+	2. How to install node js?
+
+CLASS: 3 TEXT EDITOR SOFTWARE.
+	1. How to install visual studio code?
+	
+CLASS: 4 OUR FIRST BASIC SERVER
+	Note ==> It will have Node js project in github ((test.js))
+
+CLASS : 5 EXPRESS INTRO (PART - 1)
+
+
