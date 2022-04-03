@@ -25,5 +25,16 @@ CLASS: 4 OUR FIRST BASIC SERVER
 	Note ==> It will have Node js project in github ((test.js))
 
 CLASS : 5 EXPRESS INTRO (PART - 1)
-
-
+CLASS : 6  EXPRESS INTRO (PART - 2)
+CLASS : 7  WHAT'S NEXT (BIG PICTURE)
+	1. Why was the app we built in our previous lesson so important?
+	2. What is the missing ingredient that will let us build more advanced app?
+	3. What are we going to do for the remainder of this course?
+	
+	App#2 : 	-templating engines
+		-user registration
+		-user authentication
+		-security
+		-Error handling
+		-Staying organized
+		-Much more
