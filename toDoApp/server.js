@@ -1,21 +1,26 @@
 let express = require("express");
 let mongodb = require("mongodb");
+
 let ourApp = express();
 let db;
-const port = 3000
-let connectionString =
-  "mongodb+srv://Sourav:q3h@@QmKtjDbr-f@cluster0.suecd.mongodb.net/ToDoApp?retryWrites=true&w=majority";
-mongodb.connect(
-  connectionString,
-  { useNewUrlParser: true },
-  function (err, client) {
-    db = client.db();
-
-    // ourApp.listen(3000);
-  }
-);
+// const port = 3000;
 
 ourApp.use(express.urlencoded({ extended: false }));
+
+let connectionString =
+  "mongodb+srv://Sourav:q3h@@QmKtjDbr-f@cluster0.suecd.mongodb.net/ToDoApp?retryWrites=true&w=majority";
+
+mongodb.connect(
+  connectionString,
+  // { useNewUrlParser: true },
+  { useUnifiedTopology: true },
+  function (err, client) {
+    db = client.db();
+    if (err) throw err;
+
+    ourApp.listen(3000);
+  }
+);
 
 ourApp.get("/", function (req, res) {
   res.send(
@@ -75,16 +80,12 @@ ourApp.get("/", function (req, res) {
 ourApp.post("/create-item", function (req, res) {
   console.log("we are typing this..", req.body.item);
   db.collection("items").insertOne({ text: req.body.item }, function () {
-    res.send("Thanks for submitting the form..");
+    res.send(`Thanks for submitting the form..
+    <a href='/'>Back to the main page</a>`);
   });
-  res.send(`
-
-    <p> Thanks for submitting the form .</p>
-    <a href='/'>Back to the main page</a>
-    `);
+ 
 });
-// ourApp.listen(3000);
 
-ourApp.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
- })
+// ourApp.listen(port, () => {
+//   console.log(`Example app listening at http://localhost:${port}`);
+// });
