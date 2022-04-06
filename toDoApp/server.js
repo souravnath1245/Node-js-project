@@ -1,5 +1,6 @@
 let express = require("express");
 let mongodb = require("mongodb");
+let sanitizeHTML = require("sanitize-html");
 
 let ourApp = express();
 let db;
@@ -23,6 +24,18 @@ mongodb.connect(
     ourApp.listen(3000);
   }
 );
+
+function passwordProtected(req, res, next) {
+  console.log(req.headers.authorization);
+  res.set("WWW-Authenticate", "Basic realm='Simple ToDo App'");
+  if (req.headers.authorization == "Basic c291cmF2OnNvdXJhdjg4OTA2") {
+    next();
+  } else {
+    res.status(401).send("Authentication required...");
+  }
+}
+
+ourApp.use(passwordProtected);
 
 ourApp.get("/", function (req, res) {
   db.collection("items")
@@ -60,8 +73,6 @@ ourApp.get("/", function (req, res) {
                 </ul>
               </div>
                 
-
-              
               <script >
               let items = ${JSON.stringify(items)}
               </script>
@@ -75,18 +86,25 @@ ourApp.get("/", function (req, res) {
 });
 
 ourApp.post("/create-item", function (req, res) {
-  db.collection("items").insertOne({ text: req.body.text }, function (err, info) {
-    res.json(info.ops[0])
+  let safeText = sanitizeHTML(req.body.text, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
+  db.collection("items").insertOne({ text: safeText }, function (err, info) {
+    res.json(info.ops[0]);
     // res.send(`Thanks for submitting the form..
     // <a href='/'>Back to the main page</a>`);
   });
 });
 
 ourApp.post("/update-item", function (req, res) {
-  console.log(req.body.id);
+  let safeText = sanitizeHTML(req.body.text, {
+    allowedTags: [],
+    allowedAttributes: {},
+  });
   db.collection("items").findOneAndUpdate(
     { _id: new mongodb.ObjectId(req.body.id) },
-    { $set: { text: req.body.text } },
+    { $set: { text: safeText } },
     function () {
       res.send("action is compleate successfully...");
     }
@@ -101,23 +119,4 @@ ourApp.post("/delete-item", function (req, res) {
       res.send("delete item is compleate successfully...");
     }
   );
-  // console.log(req.body.text)
-  // res.send( `Update successfully`)
 });
-
-
-
-
-// ${items
-//   .map(
-//     (item) => `
-//   <li class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-//     <span class="item-text">${item.text}</span>
-//     <div>
-//       <button data-id="${item._id}" class="edit-me btn btn-secondary btn-sm mr-1">Edit</button>
-//       <button data-id="${item._id}" class="delete-me btn btn-danger btn-sm">Delete</button>
-//     </div>
-//   </li>`
-//   )
-//   .join("")}
-  
