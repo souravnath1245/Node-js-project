@@ -101,11 +101,7 @@ app.post("/create-item", function (req, res) {
     db.collection("items").insertOne({ text: req.body.item }, function () {
       res.send("Thanks for submitting the form..");
     });
-    res.send(`
-  
-      <p> Thanks for submitting the form .</p>
-      <a href='/'>Back to the main page</a>
-      `);
+    
   });
 
 app.get("/", async (req, res) => {
